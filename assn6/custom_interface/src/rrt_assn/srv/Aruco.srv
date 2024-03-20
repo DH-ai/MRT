@@ -1,6 +1,5 @@
-int32[] image
+uint8[] image
 
 ---
-
-int32[] corners
+float32[] corners
 int32[] ids
