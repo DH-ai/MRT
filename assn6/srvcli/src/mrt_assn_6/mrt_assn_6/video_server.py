@@ -20,8 +20,12 @@ class Vfn(Node):
         img = numpy.array(request.image)
         img = numpy.array(img.reshape(1080,1920,3))
         img = cv2.cvtColor(img,cv2.COLOR_RGB2BGR)
-        # print(f"img shape =  {img.shape} \n type = {type(img)}")
+        img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
 
+        # print(f"img shape =  {img.shape} \n type = {type(img)}")
+        cv2.imshow("lam",img)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            return 
         corners, ids = self.aruco(img)
         corners = numpy.array(corners)
         corners = corners.flatten().tolist()

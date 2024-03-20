@@ -15,7 +15,7 @@ class VideoClient(Node):
         while not self.cli.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('service not available, waiting again...')
         self.req = Aruco.Request()
-
+        
     def send_request(self,image):
         # print(type(image))
         # ros_image = CvBridge.cv2_to_imgmsg(image,)
