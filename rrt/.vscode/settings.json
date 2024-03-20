@@ -1,0 +1,20 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/dhruv/Desktop/mrt_ws/build/dhruv_assn_2",
+        "/home/dhruv/Desktop/mrt_ws/install/dhruv_assn_2/lib/python3.10/site-packages",
+        "/home/dhruv/install/my_robot_controller/lib/python3.10/site-packages",
+        "/home/dhruv/Desktop/ros/build/my_robot_controller",
+        "/home/dhruv/Desktop/ros/install/my_robot_controller/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/dhruv/Desktop/mrt_ws/build/dhruv_assn_2",
+        "/home/dhruv/Desktop/mrt_ws/install/dhruv_assn_2/lib/python3.10/site-packages",
+        "/home/dhruv/install/my_robot_controller/lib/python3.10/site-packages",
+        "/home/dhruv/Desktop/ros/build/my_robot_controller",
+        "/home/dhruv/Desktop/ros/install/my_robot_controller/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}
