@@ -1,11 +1,12 @@
 import cv2
 import rclpy 
 from rclpy.node import Node
-import rrt_assn.srv import Aruco
+from rrt_assn.srv import Aruco
 import sys
 
-
-
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
+# Aruco = None
 
 class VideoClient(Node):
     def __init__(self):
@@ -16,22 +17,44 @@ class VideoClient(Node):
         self.req = Aruco.Request()
 
     def send_request(self,image):
-        self.req = image
-        self.future = self.cli.call_async(self.req)
-        rclpy.spin_until_future_complete(self, self.future)
-        return self.future.result()
-vid = cv2.VideoCapture("assn6/srvcli/src/mrt_assn_6/mrt_assn_6/feed/DSC_1797.MOV")
+        # print(type(image))
+        # ros_image = CvBridge.cv2_to_imgmsg(image,)
+        
+        self.req.image = image
+        
+        # req = [1,2,22,2,2,2,2,2,2,2,2,2]
+        
+        future = self.cli.call_async(self.req)
+        
+        
+        
+        rclpy.spin_until_future_complete(self, future)
+
+
+        if future.result() is not None:
+            return future.result()  
+        else:
+            self.get_logger().error("Service call failed: %r" % (future.exception(),))
+            return None
+
+
+
+
+vid = cv2.VideoCapture("/home/dhruv/Desktop/MRT/assn6/srvcli/src/mrt_assn_6/mrt_assn_6/feed/DSC_1797.MOV")
 def main(args = None):
     rclpy.init(args=args)
     client = VideoClient()
-    ret, frame = vid.read()
-        
-    response = client.send_request(frame)
-    client.get_logger().info(
-        response[0]
-    )
+    while True:
+            
+        ret, frame = vid.read()
+        frame = frame.flatten().tolist()
+        corners = client.send_request(frame)
+        if corners==None:
+            break
+        print(corners.ids)
     client.destroy_node()
     rclpy.shutdown()
 
 if __name__ =="__main__":
     main()
+    

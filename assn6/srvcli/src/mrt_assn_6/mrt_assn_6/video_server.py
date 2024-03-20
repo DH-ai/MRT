@@ -3,27 +3,39 @@ import rclpy
 from rclpy.node import Node
 # from cv_bridge import CvBridge
 # from sensor_msgs.msg import Image
-from rrt_assn.msg import Aruco
+from rrt_assn.srv import Aruco
 
 
-
+import numpy
 # print(rrt_assn)
  # takes images return corners
 
 class Vfn(Node):
     def __init__(self):
-        super.__init__("VideoServer")
+        super().__init__("VideoServer")
         self.srv = self.create_service(Aruco,'processor',self.corner_callback)
 
     def corner_callback(self,request,response):
 
-        img = request.image
+        img = numpy.array(request.image)
+        img = numpy.array(img.reshape(1080,1920,3))
+        img = cv2.cvtColor(img,cv2.COLOR_RGB2BGR)
+        # print(f"img shape =  {img.shape} \n type = {type(img)}")
 
         corners, ids = self.aruco(img)
-        response.corners = corners
+        corners = numpy.array(corners)
+        corners = corners.flatten().tolist()
+        corn= []
+        for corner in corners:
+            corn.append(int(corner))
+        # print(type(corners))
+        # print(corners)
+        response.corners = corn
+        ids = ids.flatten().tolist()
+        # print(ids,type(ids)) 
+        
         response.ids = ids
-
-
+        self.get_logger().info("send")
         return response
     
     
