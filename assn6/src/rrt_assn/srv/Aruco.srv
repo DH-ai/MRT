@@ -1,0 +1,6 @@
+int32[] image
+
+---
+
+int32[] corners
+int32[] ids
