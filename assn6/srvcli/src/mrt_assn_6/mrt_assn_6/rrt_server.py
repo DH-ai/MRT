@@ -22,7 +22,7 @@ class rrt_server(Node):
         self.node_list[0] = Nodes(0,0)
         self.node_list[0].x_path.append(0)
         self.node_list[0].y_path.append(0)
-        self.stepSize = 20
+        self.stepSize = 150
 
 
     def rrt_callback(self,request,response):
@@ -67,8 +67,13 @@ class rrt_server(Node):
         for x_cord in x:
             y.append(((y2-y1)/(x2-x1))*(x_cord-x1) + y1)
         for i in range(len(y)):
-            
+            color.append(self.sample_image[int(y[i])][int(x[i])])
         
+        for i in range(len(color)-5):
+            if color[i]==0:
+    
+                return True
+        return False
     
     
     def rnd_pnt(self):
@@ -108,8 +113,10 @@ class rrt_server(Node):
         else:
             nodeCon = False
 
-        return x,y,directCon,nodeCon
+        return (x,y,directCon,nodeCon)
 
+  
+  
     def rrt(self,img):
         self.frame = img
         self.sample_image = numpy.full((len(img),len(img[0])),255.0,dtype=numpy.uint8,)
@@ -137,9 +144,11 @@ class rrt_server(Node):
                     )
                 # for sampled image 
                 cv2.fillPoly(self.sample_image, [points], color=(0, 0, 0)) 
-        self.i = 1
-        self.pathFound = False
-        while not self.pathFound :
+        
+        i = 1
+        
+        pathFound = False
+        while not pathFound :
             # genration of random points 
             nx,ny= random
             # getting the closses node to it 
@@ -148,4 +157,28 @@ class rrt_server(Node):
             nearest_y = self.node_list[nearest_ind].y
 
             tx,ty,directCon,nodeCon = self.checkCollisons(nx,ny,nearest_x,nearest_y)
+
+            if directCon and nodeCon:
+                self.node_list.append[i]
+                self.node_list[i].x = tx
+                self.node_list[i].y = ty
+
+                self.node_list[i].path_x = self.node_list[nearest_ind].path_x.copy()
+
+                self.node_list[i].path_y = self.node_list[nearest_ind].path_y.copy()
+
+                cv2.circle(self.frame,(int(tx),int(ty)),3,(255,0,255),lineType=8,thickness=3)
+                cv2.line(self.frame,(int(tx),int(ty)),(int(nearest_x),int(nearest_y)),(0,0,255),thickness=2,lineType=8)
+
+                cv2.line(self.frame,(int(tx),int(ty)),(self.end[0],self.end[1]),(0,0,255),thickness = 2,lineType=8)
+
+                for j in range(len(self.node_list[i].path_x)-1):
+                    cv2.line(self.frame,(int(self.node_list[i].path_x[j]),int(self.node_list[i].path_y[j])),((int(self.node_list[i].path_x[j+1]),int(self.node_list[i].path_y[j+1]))),(0,0,255),lineType=8,thickness=2)
+
+                break
+
+
+    
+
+
             

@@ -138,11 +138,6 @@ while pathFound==False:
     print("Random Points:",nx,ny) 
     # cv2.circle(frame,(nx,ny),3,0,lineType=8,thickness=2)
 
-    # cv2.imshow("test",sampling_image)
-    # # cv2.imshow("actual",frame)
-    # cv2.waitKey(0)
-    
- 
     # getting the nearest node to that
     nearest_ind = nearest_node(nx,ny)
     nearest_x = node_list[nearest_ind].x
