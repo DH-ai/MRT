@@ -1,14 +1,11 @@
 import cv2
 import rclpy
 from rclpy.node import Node
-# from cv_bridge import CvBridge
-# from sensor_msgs.msg import Image
+import numpy
 from rrt_assn.srv import Aruco
 
 
-import numpy
-# print(rrt_assn)
- # takes images return corners
+
 
 class Vfn(Node):
     def __init__(self):
@@ -22,7 +19,6 @@ class Vfn(Node):
         img = cv2.cvtColor(img,cv2.COLOR_RGB2BGR)
         img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
 
-        # print(f"img shape =  {img.shape} \n type = {type(img)}")
         cv2.imshow("lam",img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             return 
@@ -32,11 +28,8 @@ class Vfn(Node):
         corn= []
         for corner in corners:
             corn.append(int(corner))
-        # print(type(corners))
-        # print(corners)
         response.corners = corn
         ids = ids.flatten().tolist()
-        # print(ids,type(ids)) 
         
         response.ids = ids
         self.get_logger().info("send")

@@ -103,7 +103,7 @@ corners, ids, rejectedMarkers = detectors.detectMarkers(gray_img)
 
 if len(corners)>0:
     ids = ids.flatten()
-    for (corner,id) in zip(corners,ids):
+    for (corner,ids) in zip(corners,ids):
         corner =corner.reshape((4,2))
         (tl,tr,br,bl)= corner
         

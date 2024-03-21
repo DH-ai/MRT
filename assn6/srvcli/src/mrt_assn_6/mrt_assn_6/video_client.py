@@ -2,11 +2,9 @@ import cv2
 import rclpy 
 from rclpy.node import Node
 from rrt_assn.srv import Aruco
-import sys
 
-from sensor_msgs.msg import Image
-from cv_bridge import CvBridge
-# Aruco = None
+
+
 
 class VideoClient(Node):
     def __init__(self):
@@ -15,19 +13,14 @@ class VideoClient(Node):
         while not self.cli.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('service not available, waiting again...')
         self.req = Aruco.Request()
-        
+
     def send_request(self,image):
-        # print(type(image))
-        # ros_image = CvBridge.cv2_to_imgmsg(image,)
+
         
         self.req.image = image
-        
-        # req = [1,2,22,2,2,2,2,2,2,2,2,2]
-        
+                
         future = self.cli.call_async(self.req)
-        
-        
-        
+      
         rclpy.spin_until_future_complete(self, future)
 
 
